@@ -1,0 +1,18 @@
+{
+  "bank.sol": {
+    "__sources__": {
+      "bank.sol": {
+        "content": "//SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\n\r\ncontract BankAccount\r\n{\r\n    mapping(address => uint) private balances;\r\n\r\n    function deposit() public payable {\r\n        balances[msg.sender] += msg.value;\r\n    }\r\n\r\n    function withdraw(uint amount) public {\r\n        require(balances[msg.sender] >= amount, \"Insufficient\");\r\n        balances[msg.sender] -= amount;\r\n        (bool success, ) = payable(msg.sender).call{value : amount}(\"\");\r\n        require(success, \"failed\");\r\n    }\r\n\r\n    function getBalance() public view returns (uint) {\r\n        return balances[msg.sender];\r\n    }\r\n}",
+        "file": "bank.sol"
+      }
+    }
+  },
+  "student.sol": {
+    "__sources__": {
+      "student.sol": {
+        "content": "//SPDX-License-Identifier: MIT\r\n\r\npragma solidity ^0.8.0;\r\n\r\ncontract StudentData\r\n{\r\n    struct Student\r\n    {\r\n        uint rollNo;\r\n        string name;\r\n    }\r\n\r\n    Student[] public students;\r\n\r\n    function addStudent(uint _rollNo, string memory _name) public \r\n    {\r\n        students.push(Student(_rollNo, _name));\r\n    }\r\n\r\n    function getStudent(uint index) public view returns (uint, string memory)\r\n    {\r\n        require(index < students.length, \"invalid\");\r\n        Student memory s = students[index];\r\n\r\n        return (s.rollNo, s.name);\r\n    }\r\n\r\n    function getStudentCount() public view returns (uint)\r\n    {\r\n        return students.length;\r\n    }\r\n}",
+        "file": "student.sol"
+      }
+    }
+  }
+}
